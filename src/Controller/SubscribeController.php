@@ -24,13 +24,14 @@ class SubscribeController extends ControllerBase {
 
     $results = $this->getSubscribers();
     foreach ($results as $key => $value) {
+      $created = strtotime($value->created);
       $rows[] = array(
         'data'=>array(
           $key,
           $value->username,
           $value->email,
-          $value->status,
-          $value->created
+          ($value->status) ? 'Yes' : 'No',
+          date('d-M-Y', $created)
           )
         );
     }
