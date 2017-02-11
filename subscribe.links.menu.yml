@@ -1,0 +1,5 @@
+subscribe.config:
+  title: Subscribe
+  description: 'Subscribe settings.'
+  parent: user.admin_index
+  route_name: subscribe.config

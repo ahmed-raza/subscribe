@@ -1,0 +1,10 @@
+subscribe.config:
+  title: 'Form Settings'
+  description: 'Subscriber block settings.'
+  route_name: subscribe.config
+  base_route: subscribe.config
+subscribe.subscribers:
+  title: Subscribers
+  description: 'List of all subscribers.'
+  base_route: subscribe.config
+  route_name: subscribe.subscribers
