@@ -1,0 +1,8 @@
+subscribe.config:
+  path: 'admin/config/people/subscribe_config'
+  defaults:
+    _form: '\Drupal\subscribe\Form\ConfigForm'
+    _title: 'Subscribe Configuration'
+    type: new
+  requirements:
+    _permission: 'administer site configuration'

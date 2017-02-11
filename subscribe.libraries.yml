@@ -1,0 +1,8 @@
+subscribe.lib:
+  version: 8.x
+  js:
+    js/subscribe.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupal.ajax

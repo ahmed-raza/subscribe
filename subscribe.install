@@ -1,0 +1,67 @@
+<?php
+
+// implementation of hook_schema
+
+  function subscribe_schema(){
+    $schema['subscribe_config'] = array(
+        'description' => 'Table of custom message module.',
+        'fields' => array(
+          'id' => array(
+            'description' => 'The identifier of the submission.',
+            'type' => 'serial',
+            'not null' => TRUE,
+            ),
+          'username_field' => array(
+            'description' => 'Boolean whether or not show username_field.',
+            'type' => 'int',
+            'length' => 11,
+            'not null' => TRUE,
+            'default' => 1,
+            ),
+          'form_description' => array(
+            'description' => 'The description for the subscribe form.',
+            'type' => 'text',
+            'not null' => TRUE,
+            'size' => 'big',
+            ),
+          ),
+        'primary key' => array('id'),
+      );
+    $schema['subscribe_subscribers'] = array(
+        'description' => 'Table of containing subscribers.',
+        'fields' => array(
+          'sid' => array(
+            'description' => 'The identifier of subscriber.',
+            'type' => 'serial',
+            'not null' => TRUE,
+            ),
+          'username' => array(
+            'description' => 'The username of subscriber.',
+            'type' => 'varchar',
+            'length' => 100,
+            'not null' => TRUE,
+            'default' => '',
+            ),
+          'email' => array(
+            'description' => 'The email of subscriber.',
+            'type' => 'varchar',
+            'length' => 110,
+            'not null' => TRUE,
+            'default' => '',
+            ),
+          'status' => array(
+            'description' => 'The status of subscriber.',
+            'type' => 'int',
+            'length' => 11,
+            'not null' => TRUE,
+            ),
+          'created' => array(
+            'description' => 'The time of subscription.',
+            'mysql_type' => 'timestamp',
+            'not null' => TRUE,
+            ),
+          ),
+        'primary key' => array('sid'),
+      );
+  return $schema;
+  }

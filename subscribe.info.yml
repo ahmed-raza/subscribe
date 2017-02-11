@@ -1,0 +1,6 @@
+name: Subscribe
+description: Subscribe module.
+type: module
+package: Subscribe
+core: 8.x
+configure: subscribe.config
