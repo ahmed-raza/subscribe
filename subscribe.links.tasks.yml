@@ -1,5 +1,0 @@
-subscribe.config:
-  title: 'Subscribe Settings'
-  route_name: subscribe.config
-  base_route: system.admin_content
-  weight: 5
