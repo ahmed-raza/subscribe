@@ -14,3 +14,11 @@ subscribe.confirm:
     type: new
   requirements:
     _permission: 'access content'
+subscribe.subscribers:
+  path: 'admin/config/people/subscribe/subscribers'
+  defaults:
+    _controller: '\Drupal\subscribe\Controller\SubscribeController::subscribers'
+    _title: 'Subscribe Configuration'
+    type: new
+  requirements:
+    _permission: 'administer site configuration'
