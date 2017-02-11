@@ -55,6 +55,13 @@
             'length' => 11,
             'not null' => TRUE,
             ),
+          'token' => array(
+            'description' => 'The confirmation token of subscriber.',
+            'type' => 'varchar',
+            'length' => 110,
+            'not null' => TRUE,
+            'default' => '',
+            ),
           'created' => array(
             'description' => 'The time of subscription.',
             'mysql_type' => 'timestamp',

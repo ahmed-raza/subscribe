@@ -105,7 +105,8 @@ class SubscribeForm extends FormBase {
     $data = array(
       'username'=>$username_field,
       'email'=>$form_description,
-      'status'=>0
+      'status'=>0,
+      'token'=>session_id()
       );
     $table = 'subscribe_subscribers';    
     $insert = db_insert($table)
@@ -133,7 +134,7 @@ class SubscribeForm extends FormBase {
     $params['email'] = $email;
     $params['name'] = $username;
     $params['token'] = $token;
-    $params['link'] = $base_url.'/'.$token;
+    $params['link'] = $base_url.'/subscribe/confirm?token='.$token;
     $langcode = \Drupal::currentUser()->getPreferredLangcode();
     $send = true;
 

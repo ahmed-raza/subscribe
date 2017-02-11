@@ -1,6 +1,7 @@
 <?php 
 
 function subscribe_alter(array &$types) {
+  print_r(\Drupal::routeMatch()->getRouteName());
   $types['table']['#attached']['library'][] = 'subscribe/subscribe.lib';
 }
 
@@ -13,7 +14,7 @@ function subscribe_mail($key, &$message, $params) {
     $message['from'] = \Drupal::config('system.site')->get('mail');
     $message['subject'] = t('Subscribe Confirmation');
     $message['body'][] = "Hello " . $params['name'] . "!";
-    $message['body'][] = t("You received this confirmation email for @email from our site. To confirmation subscription please goto to the following link.", array('@email'=>$params['email']));
+    $message['body'][] = t("You received this confirmation email for @email from our site. To confirm subscription please goto to the following link.", array('@email'=>$params['email']));
     $message['body'][] = "Link: " . $params['link'];
     break;
   }

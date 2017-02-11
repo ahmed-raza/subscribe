@@ -6,3 +6,11 @@ subscribe.config:
     type: new
   requirements:
     _permission: 'administer site configuration'
+subscribe.confirm:
+  path: 'subscribe/confirm'
+  defaults:
+    _form: '\Drupal\subscribe\Form\ConfirmForm'
+    _title: 'Subscribe Configuration'
+    type: new
+  requirements:
+    _permission: 'access content'
