@@ -127,13 +127,13 @@ class SubscribeForm extends FormBase {
   private function sendMail($token, $username, $email){
     global $base_url;
     $mailManager = \Drupal::service('plugin.manager.mail');
-    $module = 'example';
+    $module = 'subscribe';
     $key = 'subscribe_submit';
     $to = $email;
     $params['email'] = $email;
     $params['name'] = $username;
     $params['token'] = $token;
-    $params['link'] = $base_url;
+    $params['link'] = $base_url.'/'.$token;
     $langcode = \Drupal::currentUser()->getPreferredLangcode();
     $send = true;
 
