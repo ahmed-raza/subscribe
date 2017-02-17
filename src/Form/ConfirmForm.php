@@ -68,6 +68,9 @@ class ConfirmForm extends FormBase {
     if ($this->updateValues($form_state->getValue('mail_token'))) {
       drupal_set_message($this->t('Successfully confirmed the email.'));
       $form_state->setRedirect('view.frontpage.page_1');
+    }else{
+      drupal_set_message($this->t('Email not found.'), 'error');
+      $form_state->setRedirect('view.frontpage.page_1');
     }
   }
 
