@@ -9,6 +9,8 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Url;
+use \Drupal\Core\Link;
 
 class FilterForm extends FormBase {
   /**
@@ -22,7 +24,10 @@ class FilterForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state){
+    $param = \Drupal::request()->query->all();
     $form = array();
+
+    $form['#method'] = 'get';
 
     $form['filteration'] = array(
       '#type'=>'details',
@@ -34,11 +39,13 @@ class FilterForm extends FormBase {
     $form['filteration']['username'] = array(
       '#type'=>'textfield',
       '#title'=>'Username',
+      '#default_value'=>$param['username']
       );
 
     $form['filteration']['email'] = array(
       '#type'=>'email',
       '#title'=>'Email',
+      '#default_value'=>$param['email']
       );
 
     $form['filteration']['status'] = array(
@@ -48,6 +55,7 @@ class FilterForm extends FormBase {
           1=>'Yes',
           0=>'No'
         ),
+      '#default_value'=>$param['status']
       );
 
     $form['filteration']['actions']['submit'] = array(
@@ -56,6 +64,11 @@ class FilterForm extends FormBase {
       '#attributes'=>array(
         'class'=>['button--primary']
         ),
+      );
+
+    $form['filteration']['actions']['reset'] = array(
+      '#type'=>'markup',
+      '#markup'=>Link::fromTextAndUrl('Reset', Url::fromRoute('subscribe.subscribers'))->toString()
       );
 
     return $form;

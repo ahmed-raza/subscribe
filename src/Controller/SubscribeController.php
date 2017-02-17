@@ -7,7 +7,9 @@ use Drupal\Core\Url;
 
 class SubscribeController extends ControllerBase {
   public function subscribers(){
+    $param = \Drupal::request()->query->all();
     $form = \Drupal::formBuilder()->getForm('Drupal\subscribe\Form\FilterForm');
+    
     $build = array(
       '#type' => 'markup',
       '#markup' => t('List of subscribers.'),
@@ -51,8 +53,22 @@ class SubscribeController extends ControllerBase {
   }
 
   private function getSubscribers(){
+    $param = \Drupal::request()->query->all();
     $table = 'subscribe_subscribers';
-    $query = db_select($table, 'subscribers')->fields('subscribers')->execute()->fetchAllAssoc('sid');
-    return $query;
+    if (!empty($param)) {
+      $or = db_or($table)
+              ->condition('username',$param['username'],'LIKE')
+              ->condition('email',$param['email'],'=')
+              ->condition('status',$param['status'],'=');
+      $query = db_select($table, 'subscribers')
+              ->fields('subscribers')
+              ->condition($or)
+              ->execute()
+              ->fetchAllAssoc('sid');
+      return $query;
+    }else{
+      $query = db_select($table, 'subscribers')->fields('subscribers')->execute()->fetchAllAssoc('sid');
+      return $query;
+    }
   }
 }
