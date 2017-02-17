@@ -140,7 +140,7 @@ class SubscribeForm extends FormBase {
 
     $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
     if ($result['result'] !== true) {
-      drupal_set_message(t('There was a problem sending your message and it was not sent.'), 'error');
+      \Drupal::logger('subscribe-logger')->notice($message);
     }
   }
 }
