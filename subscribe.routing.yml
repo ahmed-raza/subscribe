@@ -14,7 +14,7 @@ subscribe.confirm:
     type: new
   requirements:
     _permission: 'access content'
-subscribe.confirm:
+subscribe.remove:
   path: 'subscribe/remove'
   defaults:
     _form: '\Drupal\subscribe\Form\RemoveForm'
