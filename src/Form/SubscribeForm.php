@@ -72,6 +72,16 @@ class SubscribeForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    // Validating email address
+    if (!valid_email_address($form_state->getValue('email'))) {
+      $form_state->setErrorByName('email', $this->t('The email is not valid.'));
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Storing form data to database.
     $token = $form_state->getValue('mail_token');
