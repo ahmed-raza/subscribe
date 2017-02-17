@@ -13,8 +13,8 @@ function subscribe_mail($key, &$message, $params) {
     case 'subscribe_submit':
     $message['from'] = \Drupal::config('system.site')->get('mail');
     $message['subject'] = t('Subscribe Confirmation');
-    $message['body'][] = "Hello " . $params['name'] . "!";
-    $message['body'][] = t("You received this confirmation email for @email from our site. To confirm subscription please goto to the following link.", array('@email'=>$params['email']));
+    $message['body'][] = "Dear " . $params['name'] . "!";
+    $message['body'][] = t("You received this confirmation email for @email from @site. To confirm subscription please goto to the following link.", array('@email'=>$params['email'], '@site'=>\Drupal::config('system.site')->get('name')));
     $message['body'][] = "Link: " . $params['link'];
     break;
   }
