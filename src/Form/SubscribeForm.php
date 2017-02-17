@@ -69,20 +69,6 @@ class SubscribeForm extends FormBase {
     return $form;
   }
 
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    $email = $form_state->getValue('email');
-    $table = 'subscribe_subscribers';
-    $query = db_select($table, 'subscriber')
-            ->fields('subscriber')
-            ->condition('email',$email,'=')
-            ->condition('status',1)
-            ->execute()
-            ->fetchAssoc();
-    if ($query) {
-      $form_state->setErrorByName('email', $this->t('Email already exists.'));
-    }
-  }
-
   /**
    * {@inheritdoc}
    */
@@ -92,6 +78,7 @@ class SubscribeForm extends FormBase {
     $username = $form_state->getValue('username');
     $email = $form_state->getValue('email');
     if ($this->confirmedExists($email)) {
+      $this->updateSubscriber($token, $username, $email);
       $this->sendMail($token, $username, $email, $resend = false, $remove = true);
       drupal_set_message($this->t('This email already subscribed, an email has been dispatched to this address with unsubscription  link.'));
     }else if($this->unConfirmedExists($email)){
@@ -131,7 +118,6 @@ class SubscribeForm extends FormBase {
     $update = db_update($table)
               ->fields($data)
               ->condition('email', $email, '=')
-              ->condition('status', 0, '=')
               ->execute();
     return $update;
   }

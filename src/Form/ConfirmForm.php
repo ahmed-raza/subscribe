@@ -8,8 +8,6 @@ namespace Drupal\subscribe\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\UrlHelper;
-use Drupal\Core\Mail\MailManagerInterface;
-use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Component\Utility\Html;
 
 class ConfirmForm extends FormBase {

@@ -8,8 +8,6 @@ namespace Drupal\subscribe\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\UrlHelper;
-use Drupal\Core\Mail\MailManagerInterface;
-use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Component\Utility\Html;
 
 class RemoveForm extends FormBase {
@@ -79,6 +77,10 @@ class RemoveForm extends FormBase {
     $delete = db_delete($table)
             ->condition('token', $token, '=')
             ->execute();
-    return $delete;
+    if ($delete) {
+      return true;
+    }else{
+      return false;
+    }
   }
 }
