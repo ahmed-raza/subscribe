@@ -156,7 +156,7 @@ class SubscribeForm extends FormBase {
       $params['email'] = $email;
       $params['name'] = $username;
       $params['token'] = $token;
-      $params['link'] = $base_url.'/subscribe/confirm?token='.$token;
+      $params['link'] = $base_url.'/subscribe/remove?token='.$token;
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = true;
 

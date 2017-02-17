@@ -12,12 +12,12 @@ use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Component\Utility\Html;
 
-class ConfirmForm extends FormBase {
+class RemoveForm extends FormBase {
   /**
   *   {@inheritdoc}
   */
   public function getFormId(){
-    return 'subscribe_confirm_form';
+    return 'subscribe_remove_form';
   }
 
   /**
@@ -30,7 +30,7 @@ class ConfirmForm extends FormBase {
 
     $form['markup'] = array(
       '#type'=>'markup',
-      '#markup'=>$this->t('Are you sure you want to confirm subscription?'),
+      '#markup'=>$this->t('Are you sure you want to remove subscription?'),
       '#prefix'=>'<p>',
       '#suffix'=>'</p>',
       );
@@ -65,8 +65,8 @@ class ConfirmForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Storing form data to database.
-    if ($this->updateValues($form_state->getValue('mail_token'))) {
-      drupal_set_message($this->t('Successfully confirmed the email.'));
+    if ($this->deleteSubscriber($form_state->getValue('mail_token'))) {
+      drupal_set_message($this->t('Successfully removed the email from subscribers list.'));
       $form_state->setRedirect('view.frontpage.page_1');
     }else{
       drupal_set_message($this->t('Email not found.'), 'error');
@@ -74,15 +74,11 @@ class ConfirmForm extends FormBase {
     }
   }
 
-  private function updateValues($token){
-    $data = array(
-      'status'=>1,
-      );
+  private function deleteSubscriber($token){
     $table = 'subscribe_subscribers';
-    $update = db_update($table)
-            ->fields($data)
+    $delete = db_delete($table)
             ->condition('token', $token, '=')
             ->execute();
-    return $update;
+    return $delete;
   }
 }

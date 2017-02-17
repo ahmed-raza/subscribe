@@ -14,6 +14,14 @@ subscribe.confirm:
     type: new
   requirements:
     _permission: 'access content'
+subscribe.confirm:
+  path: 'subscribe/remove'
+  defaults:
+    _form: '\Drupal\subscribe\Form\RemoveForm'
+    _title: 'Subscribe Removal'
+    type: new
+  requirements:
+    _permission: 'access content'
 subscribe.subscribers:
   path: 'admin/config/people/subscribe/subscribers'
   defaults:
