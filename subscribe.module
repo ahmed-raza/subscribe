@@ -17,5 +17,19 @@ function subscribe_mail($key, &$message, $params) {
     $message['body'][] = t("You received this confirmation email for @email from @site. To confirm subscription please goto to the following link.", array('@email'=>$params['email'], '@site'=>\Drupal::config('system.site')->get('name')));
     $message['body'][] = "Link: " . $params['link'];
     break;
+    case 'subscribe_resend':
+    $message['from'] = \Drupal::config('system.site')->get('mail');
+    $message['subject'] = t('Resend Subscribe Confirmation');
+    $message['body'][] = "Dear " . $params['name'] . "!";
+    $message['body'][] = t("You received this confirmation email for @email from @site. To confirm subscription please goto to the following link.", array('@email'=>$params['email'], '@site'=>\Drupal::config('system.site')->get('name')));
+    $message['body'][] = "Link: " . $params['link'];
+    break;
+    case 'subscribe_remove':
+    $message['from'] = \Drupal::config('system.site')->get('mail');
+    $message['subject'] = t('Unsubscribe');
+    $message['body'][] = "Dear " . $params['name'] . "!";
+    $message['body'][] = t("You received this confirmation email for @email from @site. To confirm subscription please goto to the following link.", array('@email'=>$params['email'], '@site'=>\Drupal::config('system.site')->get('name')));
+    $message['body'][] = "Link: " . $params['link'];
+    break;
   }
 }
