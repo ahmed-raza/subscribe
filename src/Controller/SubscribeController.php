@@ -7,6 +7,7 @@ use Drupal\Core\Url;
 
 class SubscribeController extends ControllerBase {
   public function subscribers(){
+    $form = \Drupal::formBuilder()->getForm('Drupal\subscribe\Form\FilterForm');
     $build = array(
       '#type' => 'markup',
       '#markup' => t('List of subscribers.'),
@@ -40,11 +41,11 @@ class SubscribeController extends ControllerBase {
       '#header' => $header,
       '#rows' => $rows,
       '#attributes' => array(
-        'id' => 'custom-contact-messages-table',
+        'id' => 'subscribers-listing-table',
         ),
       );
 
-    $final = array($build, $table);
+    $final = array($form, $build, $table);
 
     return $final;
   }
