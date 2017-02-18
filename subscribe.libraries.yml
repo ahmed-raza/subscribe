@@ -2,6 +2,9 @@ subscribe.lib:
   version: 8.x
   js:
     js/subscribe.js: {}
+  css:
+    theme:
+      css/subscribe.css: {}
   dependencies:
     - core/jquery
     - core/drupal

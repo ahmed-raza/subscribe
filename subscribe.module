@@ -1,7 +1,6 @@
 <?php 
 
-function subscribe_alter(array &$types) {
-  print_r(\Drupal::routeMatch()->getRouteName());
+function subscribe_element_info_alter(array &$types) {
   $types['table']['#attached']['library'][] = 'subscribe/subscribe.lib';
 }
 

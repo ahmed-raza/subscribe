@@ -39,7 +39,8 @@ class FilterForm extends FormBase {
     $form['filteration']['username'] = array(
       '#type'=>'textfield',
       '#title'=>'Username',
-      '#default_value'=>$param['username']
+      '#default_value'=>$param['username'],
+      '#prefix'=>'<div class="fields-wrapper">'
       );
 
     $form['filteration']['email'] = array(
@@ -55,7 +56,8 @@ class FilterForm extends FormBase {
           1=>'Yes',
           0=>'No'
         ),
-      '#default_value'=>$param['status']
+      '#default_value'=>$param['status'],
+      '#suffix'=>'</div>',
       );
 
     $form['filteration']['actions']['submit'] = array(

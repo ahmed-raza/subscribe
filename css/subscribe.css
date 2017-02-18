@@ -1,0 +1,7 @@
+#subscribe-filter-form .fields-wrapper .js-form-item {
+  display: inline-block;
+}
+#subscribe-filter-form .js-form-type-textfield,
+#subscribe-filter-form .js-form-type-email{
+  width: 15%;
+}
