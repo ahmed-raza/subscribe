@@ -8,7 +8,8 @@ use Drupal\Core\Url;
 class SubscribeController extends ControllerBase {
   public function subscribers(){
     $param = \Drupal::request()->query->all();
-    $form = \Drupal::formBuilder()->getForm('Drupal\subscribe\Form\FilterForm');
+    $filterForm = \Drupal::formBuilder()->getForm('Drupal\subscribe\Form\FilterForm');
+    $operationsForm = \Drupal::formBuilder()->getForm('Drupal\subscribe\Form\OperationsForm');
     
     $build = array(
       '#type' => 'markup',
@@ -47,7 +48,7 @@ class SubscribeController extends ControllerBase {
         ),
       );
 
-    $final = array($form, $build, $table);
+    $final = array($filterForm, $operationsForm, $build, $table);
 
     return $final;
   }

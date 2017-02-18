@@ -2,6 +2,9 @@
   display: inline-block;
 }
 #subscribe-filter-form .js-form-type-textfield,
-#subscribe-filter-form .js-form-type-email{
+#subscribe-filter-form .js-form-type-email {
   width: 15%;
+}
+#subscribe-operations-form .export-desc {
+  margin-top: 10px;
 }

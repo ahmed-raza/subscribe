@@ -33,7 +33,6 @@ class FilterForm extends FormBase {
       '#type'=>'details',
       '#title'=>t('Filter'),
       '#collapsible'=>true,
-      '#collapsed'=>true,
       );
 
     $form['filteration']['username'] = array(
