@@ -1,7 +1,7 @@
 (function ($) {
 
   $(document).ready(function(){
-    // alert('asd');
+    $('#subscribe-filter-form details').attr('open', '');
   });
 
 })(jQuery);

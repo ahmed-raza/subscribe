@@ -57,7 +57,8 @@ class OperationsForm extends FormBase {
             ->fetchAllAssoc('sid');
     $emails = [];
     foreach ($subscribers as $key => $value) {
-      $emails[] = $value->email;
+      $emails[$key]['name'] = $value->username;
+      $emails[$key]['email'] = $value->email;
     }
     $batch = array(
       'title'=>t('Deleting Subscribers..'),

@@ -16,7 +16,7 @@ class Export {
     $message = 'Exporting...';
     $results = array();
     foreach ($emails as $email) {
-      $results[] = $email."\n";
+      $results[] = $email['name']. ";" . $email['email']."\n";
     }
     file_put_contents($file->getFileUri(), $results);
     $file->save();
@@ -28,8 +28,6 @@ class Export {
   }
 
   function finished($success, $results, $operations) {
-    // The 'success' parameter means no fatal PHP errors were detected. All
-    // other error management should be handled using 'results'.
     if ($success) {
       $message = \Drupal::translation()->formatPlural(
         count($results),
