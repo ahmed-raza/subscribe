@@ -24,6 +24,9 @@ class OperationsForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state){    
+    global $base_url;
+    $link = file_create_url("public://export/export.xls");
+    $file = Link::fromTextAndUrl('Export', Url::fromUri($link))->toString();
     $form = array();
 
     $form['operations'] = array(
@@ -33,13 +36,19 @@ class OperationsForm extends FormBase {
       '#collapsed'=>true,
       );
 
+    $form['operations']['markup'] = array(
+      '#type'=>'markup',
+      '#prefix'=>'<div class="export-desc">',
+      '#markup'=>$this->t('Exports all subscribers to <em>@export</em> file.', array('@export'=>$file)),
+      '#suffix'=>'</div>',
+      );
+
     $form['operations']['actions']['export'] = array(
       '#type'=>'submit',
       '#value'=>'Export All Subscribers',
       '#attributes'=>array(
         'class'=>['button--primary']
         ),
-      '#markup'=>'<div class="export-desc">'.$this->t('Exports all subscribers to <em>.xls</em> file.').'</div>',
       );
 
     return $form;
@@ -61,7 +70,7 @@ class OperationsForm extends FormBase {
       $emails[$key]['email'] = $value->email;
     }
     $batch = array(
-      'title'=>t('Deleting Subscribers..'),
+      'title'=>t('Exporting Subscribers..'),
       'operations'=>array(
         array(
           '\Drupal\subscribe\Export::exportSubscribers',
