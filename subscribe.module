@@ -1,5 +1,9 @@
 <?php 
-
+/**
+ * @File
+ * Subscribe module for Drupal 8.
+ * @author Ahmed Raza
+ */
 function subscribe_element_info_alter(array &$types) {
   $types['table']['#attached']['library'][] = 'subscribe/subscribe.lib';
 }
