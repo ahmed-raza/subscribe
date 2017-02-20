@@ -4,6 +4,7 @@ namespace Drupal\subscribe\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use \Drupal\Core\Link;
 
 class SubscribeController extends ControllerBase {
   public function subscribers(){
@@ -17,11 +18,11 @@ class SubscribeController extends ControllerBase {
     );
 
     $header = array(
-      'id' => t('ID'),
       'name' => t('Name'),
       'email' => t('Email'),
       'confirmed' => t('Confirmed'),
       'time' => t('Created'),
+      'actions' => t('Actions'),
       );
 
     $rows = array();
@@ -31,11 +32,11 @@ class SubscribeController extends ControllerBase {
       $created = strtotime($value->created);
       $rows[] = array(
         'data'=>array(
-          $key,
           $value->username,
           $value->email,
           ($value->status) ? 'Yes' : 'No',
-          date('d-M-Y', $created)
+          date('d-M-Y', $created),
+          Link::fromTextAndUrl($this->t('Delete'), Url::fromRoute('subscribe.delete', ['id'=>$key]))
           )
         );
     }
