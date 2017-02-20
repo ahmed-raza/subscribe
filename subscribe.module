@@ -8,6 +8,10 @@ function subscribe_element_info_alter(array &$types) {
   $types['table']['#attached']['library'][] = 'subscribe/subscribe.lib';
 }
 
+/**
+ * @File
+ * hook_mail for subscription mails.
+ */
 function subscribe_mail($key, &$message, $params) {
   $options = array(
     'langcode' => $message['langcode'],
