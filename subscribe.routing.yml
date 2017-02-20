@@ -30,3 +30,11 @@ subscribe.subscribers:
     type: new
   requirements:
     _permission: 'administer site configuration'
+subscribe.delete:
+  path: 'admin/config/people/subscribe/subscriber/{id}/delete'
+  defaults:
+    _form: '\Drupal\subscribe\Form\DeleteForm'
+    _title: 'Confirm Delete'
+    type: new
+  requirements:
+    _permission: 'administer site configuration'
