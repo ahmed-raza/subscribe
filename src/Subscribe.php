@@ -35,6 +35,18 @@ class Subscribe {
     return $update;
   }
 
+  private function updateStatus($token){
+    $data = array(
+      'status'=>1,
+      );
+    $table = 'subscribe_subscribers';
+    $update = db_update($table)
+            ->fields($data)
+            ->condition('token', $token, '=')
+            ->execute();
+    return $update;
+  }
+
   public function confirmedExists($email){
     $table = 'subscribe_subscribers';
     $check = db_select($table, 'subscriber')
