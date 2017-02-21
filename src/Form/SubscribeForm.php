@@ -14,6 +14,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CssCommand;
 use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\subscribe\Subscribe;
 
 class SubscribeForm extends FormBase {
   /**
@@ -84,52 +85,26 @@ class SubscribeForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Storing form data to database.
+    $username = '';
+    if ($this->getConfig('username_field')) {
+      $username = $form_state->getValue('username');
+    }
     $token = $form_state->getValue('mail_token');
-    $username = $form_state->getValue('username');
     $email = $form_state->getValue('email');
-    if ($this->confirmedExists($email)) {
-      $this->updateSubscriber($token, $username, $email);
-      $this->sendMail($token, $username, $email, $resend = false, $remove = true);
+    if (Subscribe::confirmedExists($email)) {
+      Subscribe::updateSubscriber($token, $username, $email);
+      Subscribe::sendMail($token, $username, $email, $resend = false, $remove = true);
       drupal_set_message($this->t('This email already subscribed, an email has been dispatched to this address with unsubscription  link.'));
-    }else if($this->unConfirmedExists($email)){
-      $this->updateSubscriber($token, $username, $email);
-      $this->sendMail($token, $username, $email, $resend = true, $remove = false);
+    }else if(Subscribe::unConfirmedExists($email)){
+      Subscribe::updateSubscriber($token, $username, $email);
+      Subscribe::sendMail($token, $username, $email, $resend = true, $remove = false);
       drupal_set_message($this->t('Seems like the email already subscribed but is not confirmed, an email has been dispatched to this address with confirmation link.'));
-    }else if ($this->storeValues($username, $email)) {
+    }else if (Subscribe::subscribe($username, $email)) {
       drupal_set_message($this->t('You have successfully subscribed to our newsletter.'));
-      $this->sendMail($token, $username, $email, $resend = false, $remove = false);
+      Subscribe::sendMail($token, $username, $email, $resend = false, $remove = false);
     }else{
       drupal_set_message($this->t('Error'), 'error');
     }
-  }
-
-  private function storeValues($username, $email){
-    $data = array(
-      'username'=>$username,
-      'email'=>$email,
-      'status'=>0,
-      'token'=>session_id()
-      );
-    $table = 'subscribe_subscribers';    
-    $insert = db_insert($table)
-            ->fields($data)
-            ->execute();
-    return true;
-  }
-
-  private function updateSubscriber($token, $username, $email){
-    $table = 'subscribe_subscribers';
-    $data = array(
-      'username'=>$username,
-      'email'=>$email,
-      'status'=>0,
-      'token'=>session_id()
-      );
-    $update = db_update($table)
-              ->fields($data)
-              ->condition('email', $email, '=')
-              ->execute();
-    return $update;
   }
 
   private function getConfig($field){
@@ -140,78 +115,5 @@ class SubscribeForm extends FormBase {
             ->execute()
             ->fetchAssoc();
     return $query[$field];
-  }
-
-  private function sendMail($token, $username, $email, $resend, $remove){
-    global $base_url;
-    $mailManager = \Drupal::service('plugin.manager.mail');
-    if ($remove) {
-      $module = 'subscribe';
-      $key = 'subscribe_remove';
-      $to = $email;
-      $params['email'] = $email;
-      $params['name'] = $username;
-      $params['token'] = $token;
-      $params['link'] = $base_url.'/subscribe/remove?token='.$token;
-      $langcode = \Drupal::currentUser()->getPreferredLangcode();
-      $send = true;
-
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-      if ($result['result'] !== true) {
-        \Drupal::logger('subscribe-logger')->notice($this->t('Failed to send removal email.'));
-      }
-    }else if($resend){
-      $module = 'subscribe';
-      $key = 'subscribe_resend';
-      $to = $email;
-      $params['email'] = $email;
-      $params['name'] = $username;
-      $params['token'] = $token;
-      $params['link'] = $base_url.'/subscribe/confirm?token='.$token;
-      $langcode = \Drupal::currentUser()->getPreferredLangcode();
-      $send = true;
-
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-      if ($result['result'] !== true) {
-        \Drupal::logger('subscribe-logger')->notice($this->t('Failed to send duplicate confirmation email.'));
-      }
-    }else{
-      $module = 'subscribe';
-      $key = 'subscribe_submit';
-      $to = $email;
-      $params['email'] = $email;
-      $params['name'] = $username;
-      $params['token'] = $token;
-      $params['link'] = $base_url.'/subscribe/confirm?token='.$token;
-      $langcode = \Drupal::currentUser()->getPreferredLangcode();
-      $send = true;
-
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-      if ($result['result'] !== true) {
-        \Drupal::logger('subscribe-logger')->notice($this->t('Failed to send confirmation email.'));
-      }
-    }
-  }
-
-  private function confirmedExists($email){
-    $table = 'subscribe_subscribers';
-    $check = db_select($table, 'subscriber')
-            ->fields('subscriber')
-            ->condition('email', $email, '=')
-            ->condition('status', 1, '=')
-            ->execute()
-            ->fetchAssoc();
-    return $check;
-  }
-
-  private function unConfirmedExists($email){
-    $table = 'subscribe_subscribers';
-    $check = db_select($table, 'subscriber')
-            ->fields('subscriber')
-            ->condition('email', $email, '=')
-            ->condition('status', 0, '=')
-            ->execute()
-            ->fetchAssoc();
-    return $check;
   }
 }
