@@ -35,7 +35,7 @@ class Subscribe {
     return $update;
   }
 
-  private function updateStatus($token){
+  public function updateStatus($token){
     $data = array(
       'status'=>1,
       );

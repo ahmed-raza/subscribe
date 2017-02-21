@@ -64,7 +64,7 @@ class ConfirmForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Storing form data to database.
-    if (Subscribe::updateValues($form_state->getValue('mail_token'))) {
+    if (Subscribe::updateStatus($form_state->getValue('mail_token'))) {
       drupal_set_message($this->t('Successfully confirmed the email.'));
       $form_state->setRedirect('view.frontpage.page_1');
     }else{
