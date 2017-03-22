@@ -29,16 +29,23 @@ class SubscribeController extends ControllerBase {
 
     $results = $this->getSubscribers();
     foreach ($results as $key => $value) {
+      $row = array();
       $created = strtotime($value->created);
-      $rows[] = array(
-        'data'=>array(
-          $value->username,
-          $value->email,
-          ($value->status) ? 'Yes' : 'No',
-          date('d-M-Y', $created),
-          Link::fromTextAndUrl($this->t('Delete'), Url::fromRoute('subscribe.delete', ['id'=>$key]))
-          )
+      $row['name'] = $value->username;
+      $row['email'] = $value->email;
+      $row['confirmed'] = ($value->status) ? 'Yes' : 'No';
+      $row['time'] = date('d-M-Y', $created);
+      $operations['delete'] = array(
+        'title'=>t('Delete'),
+        'url'=>Url::fromRoute('subscribe.delete', ['id'=>$key]),
         );
+      $row['operations'] = array(
+        'data' => array(
+          '#type' => 'operations',
+          '#links' => $operations,
+        ),
+      );
+      $rows[] = $row;
     }
     $table = array(
       '#type' => 'table',
